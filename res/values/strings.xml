@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Friends Viewer</string>
+    <string name="app_id">336635656452511</string>
+    <string name="meFriends">Friends</string>
+    <string name="buttonRefresh">Refresh</string>
+    <string name="can_not_loaded">Friends can not be loaded</string>
+    <string name="buttonLogin">Login</string>
+    <string name="albums">albums</string>
+    <string name="description">Description</string>
+    <string name="menu_item_clear_cache">ClearCache</string>
+    <string name="menu_item_drop_data">DropData</string>
+</resources>
