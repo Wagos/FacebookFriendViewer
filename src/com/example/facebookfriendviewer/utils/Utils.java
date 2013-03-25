@@ -3,6 +3,7 @@ package com.example.facebookfriendviewer.utils;
 import android.database.Cursor;
 import com.example.facebookfriendviewer.objects.Album;
 import com.example.facebookfriendviewer.objects.Friend;
+import com.example.facebookfriendviewer.objects.Photo;
 import com.facebook.Response;
 import com.facebook.model.GraphMultiResult;
 import com.facebook.model.GraphObject;
@@ -83,4 +84,11 @@ public class Utils {
         return cursor.getCount() < 1;
     }
 
+    public static Photo convertToPhoto(GraphObject graphObject) {
+        Photo photo=new Photo();
+        String id = (String) graphObject.getProperty(ID);
+        photo.setPhotoId(id);
+        photo.setPictureUrl(getFacebookPictureUrl(id));
+        return photo;
+    }
 }

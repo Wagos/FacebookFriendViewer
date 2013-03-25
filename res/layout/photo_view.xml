@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+    <com.example.facebookfriendviewer.views.SquareImageView
+        android:id="@+id/picture"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center_vertical"
+        android:scaleType="center"
+        android:src="@drawable/square"
+        android:contentDescription="@string/description"
+        />
+    <ImageButton android:id="@+id/button_like"
+                 android:src="@drawable/like"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:contentDescription="@string/button_like"
+                 android:background="@android:color/transparent"
+                 android:layout_alignRight="@+id/picture"
+                 android:layout_alignBottom="@+id/picture"/>
+</RelativeLayout>

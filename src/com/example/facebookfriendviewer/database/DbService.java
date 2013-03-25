@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.example.facebookfriendviewer.objects.Album;
 import com.example.facebookfriendviewer.objects.Friend;
+import com.example.facebookfriendviewer.objects.Photo;
 
 import static com.example.facebookfriendviewer.database.TableConstants.*;
 
@@ -150,5 +151,61 @@ public class DbService {
      */
     public void close() {
         helper.close();
+    }
+
+    /**
+     * @param albumId Album id to request
+     * @return Cursor with Photos of specific album
+     */
+    public Cursor getPhotoCursor(String albumId) {
+        return database.query(PHOTO_TABLE_NAME
+                , null,
+                ALBUM_ID + " = " + albumId,
+                null, null, null, null);
+    }
+    /**
+     * Requests album from the database
+     *
+     * @param albumID friend id
+     * @return Album object
+     */
+    public Album getAlbum(long albumID) {
+
+        Cursor cursor = database.query(ALBUM_TABLE_NAME, null,
+                "_id = ?", new String[]{Long.toString(albumID)},
+                null, null, null);
+
+        if (!cursor.moveToFirst()){
+            return null;
+        }
+        return albumFromCursor(cursor);
+    }
+
+    private Album albumFromCursor(Cursor cursor) {
+        Album album=new Album();
+        album.setId(cursor.getString(0));
+        album.setAlbumId(cursor.getString(cursor.getColumnIndex(ID)));
+        album.setName(cursor.getString(cursor.getColumnIndex(NAME)));
+        album.setPictureUrl(cursor.getString(cursor.getColumnIndex(PICTURE)));
+        album.setAccId(cursor.getString(cursor.getColumnIndex(ACC_ID)));
+        return album;
+    }
+
+    public void deletePhotos(String id) {
+        database.delete(PHOTO_TABLE_NAME,
+                ALBUM_ID + "=" + id,
+                null);
+    }
+
+    public void savePhoto(Photo photo) {
+        database.insert(PHOTO_TABLE_NAME, null, getPhotoContentValues(photo));
+    }
+
+    private ContentValues getPhotoContentValues(Photo photo) {
+        ContentValues values = new ContentValues();
+        values.put(ID, photo.getAlbumId());
+        values.put(PICTURE, photo.getPictureUrl());
+        values.put(ALBUM_ID, photo.getAlbumId());
+        return values;
     }
 }

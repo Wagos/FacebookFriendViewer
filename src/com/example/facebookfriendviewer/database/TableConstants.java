@@ -8,6 +8,9 @@ package com.example.facebookfriendviewer.database;
  */
 public class TableConstants {
 
+    public static final String PHOTO_TABLE_NAME = "photos";
+    public static final String ALBUM_ID = "albumID";
+
     private TableConstants() {
     }
 
@@ -44,4 +47,12 @@ public class TableConstants {
             " FOREIGN KEY ( " + ACC_ID + " ) REFERENCES " + FRIENDS_TABLE_NAME + "(_id)" + ")";
 
     public static final String DROP_ALBUM_TABLE = DROP_TABLE + ALBUM_TABLE_NAME;
+
+    public static final String CREATE_PHOTO_TABLE = CREATE_TABLE + PHOTO_TABLE_NAME
+            + GEN_ID
+            + ID + " TEXT,"
+            + PICTURE + " TEXT, "
+            + ALBUM_ID + " INTEGER,"
+            +" FOREIGN KEY ( " + ALBUM_ID + " ) REFERENCES " + ALBUM_TABLE_NAME + "(_id)" + ")";
+    public static final String DROP_PHOTO_TABLE = DROP_TABLE + PHOTO_TABLE_NAME;
 }

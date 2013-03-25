@@ -10,4 +10,6 @@
     <string name="description">Description</string>
     <string name="menu_item_clear_cache">ClearCache</string>
     <string name="menu_item_drop_data">DropData</string>
+    <string name="button_like">likes</string>
+    <string name="photos">Photos</string>
 </resources>

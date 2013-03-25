@@ -16,7 +16,7 @@ public abstract class BaseActivity extends Activity {
 
     protected ImageLoader imageLoader = ImageLoader.getInstance();     // Provides loading and caching images
 
-    protected DbService dbService;  //Provides work with database
+    protected static DbService dbService;  //Provides work with database
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

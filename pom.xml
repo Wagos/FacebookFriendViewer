@@ -31,27 +31,7 @@
             <artifactId>universal-image-loader</artifactId>
             <version>1.8.2</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.roboguice</groupId>-->
-            <!--<artifactId>roboguice</artifactId>-->
-            <!--<version>3.0b-experimental</version>-->
-        <!--</dependency>-->
     </dependencies>
-    <!--<build>-->
-        <!--<pluginManagement>-->
-            <!--<plugins>-->
-                <!--<plugin>-->
-                    <!--<groupId>com.jayway.maven.plugins.android.generation2</groupId>-->
-                    <!--<artifactId>android-maven-plugin</artifactId>-->
-                    <!--<version>${android-maven.version}</version>-->
-                    <!--<configuration>-->
-                        <!--<sdk>-->
-                            <!--<platform>${android.platform}</platform>-->
-                        <!--</sdk>-->
-                    <!--</configuration>-->
-                <!--</plugin>-->
-            <!--</plugins>-->
-        <!--</pluginManagement>-->
-    <!--</build>-->
+
 
 </project>
