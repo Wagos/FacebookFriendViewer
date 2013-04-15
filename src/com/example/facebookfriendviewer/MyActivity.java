@@ -50,7 +50,9 @@ public class MyActivity extends BaseActivity {
     private LoginButton authButton;
     private ListView listView;
 
-    private static final String[] FACEBOOK_PERMISSIONS = new String[]{"user_likes", "user_photos", "user_videos", "friends_likes", "friends_photos"};
+    private static final String[] FACEBOOK_PERMISSIONS = new String[]{
+            "user_likes", "user_photos", "user_videos", "friends_likes",
+            "friends_photos"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,17 +63,19 @@ public class MyActivity extends BaseActivity {
         initViews();
     }
 
-    /**
-     * Configure ImageLoader
-     */
+    /** Configure ImageLoader */
     private void initImageLoader() {
         imageLoader.init(new ImageLoaderConfiguration.Builder(this)
-                .imageDownloader(new FacebookImageDownloader(this))       //Set downloader
+                .imageDownloader(new FacebookImageDownloader(
+                        this))       //Set downloader
                 .defaultDisplayImageOptions(new DisplayImageOptions.Builder()
-                        .showStubImage(R.drawable.com_facebook_profile_default_icon)
-                        .showImageForEmptyUri(R.drawable.com_facebook_profile_default_icon)
-                        .showImageOnFail(R.drawable.com_facebook_profile_default_icon)
-                        .cacheInMemory()                                                  //set cache options
+                        .showStubImage(
+                                R.drawable.com_facebook_profile_default_icon)
+                        .showImageForEmptyUri(
+                                R.drawable.com_facebook_profile_default_icon)
+                        .showImageOnFail(
+                                R.drawable.com_facebook_profile_default_icon)
+                        .cacheInMemory()           //set cache options
                         .cacheOnDisc()
                         .build())
                 .build());
@@ -91,7 +95,8 @@ public class MyActivity extends BaseActivity {
         authButton.setReadPermissions(Arrays.asList(FACEBOOK_PERMISSIONS));
         authButton.setSessionStatusCallback(new Session.StatusCallback() {
             @Override
-            public void call(Session session, SessionState state, Exception exception) {
+            public void call(Session session, SessionState state,
+                    Exception exception) {
                 if (state == SessionState.OPENED)
                     controlsEnabling(true);
                 else controlsEnabling(false);
@@ -102,7 +107,8 @@ public class MyActivity extends BaseActivity {
     }
 
     private boolean checkSession() {
-        return Session.getActiveSession() != null && Session.getActiveSession().isOpened();
+        return Session.getActiveSession() != null &&
+                Session.getActiveSession().isOpened();
     }
 
     private void initViews() {
@@ -113,12 +119,15 @@ public class MyActivity extends BaseActivity {
         if (Utils.cursorEmpty(cursor)) {
             onClickRefresh();
         }
-        listView.setAdapter(new ViewCursorAdapter(this, cursor, R.layout.friend_view));
+        listView.setAdapter(
+                new ViewCursorAdapter(this, cursor, R.layout.friend_view));
 
-        listView.setOnScrollListener(new PauseOnScrollListener(imageLoader, false, true));
+        listView.setOnScrollListener(
+                new PauseOnScrollListener(imageLoader, false, true));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view,
+                    int position, long id) {
                 onListItemClick(id);
             }
         });
@@ -126,6 +135,7 @@ public class MyActivity extends BaseActivity {
 
     private void onListItemClick(long id) {
         Intent intent = new Intent(MyActivity.this, AlbumsActivity.class);
+
         intent.putExtra("id", id);
         startActivity(intent);
     }
@@ -136,27 +146,29 @@ public class MyActivity extends BaseActivity {
 
 
     private void onClickRefresh() {
+        FacebookFriendsLoadTask friendsTask = new FacebookFriendsLoadTask(this,
+                new LoadCompleteListener() {
+                    @Override
+                    public void onLoadComplete() {
+                        refreshFriends();
+                    }
+                });
 
-        FacebookFriendsLoadTask friendsTask = new FacebookFriendsLoadTask(this, new LoadCompleteListener() {
-            @Override
-            public void onLoadComplete() {
-                refreshFriends();
-            }
-        });
         friendsTask.execute();
     }
 
-    /**
-     * change cursor in ListView adapter
-     */
+    /** change cursor in ListView adapter */
     private void refreshFriends() {
-        ((CursorAdapter) listView.getAdapter()).changeCursor(dbService.getFriendList());
+        ((CursorAdapter) listView.getAdapter())
+                .changeCursor(dbService.getFriendList());
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode,
+            Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+        Session.getActiveSession()
+                .onActivityResult(this, requestCode, resultCode, data);
     }
 
     @Override

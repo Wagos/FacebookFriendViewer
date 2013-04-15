@@ -30,6 +30,7 @@ import com.example.facebookfriendviewer.utils.Utils;
 
 /**
  * Activity display photos from given album
+ *
  * @author Witkowsky Dmitry
  */
 
@@ -70,7 +71,8 @@ public class PhotosActivity extends BaseActivity {
 
     private void onClickRefresh() {
         Album album = getDbService().getAlbum(albumID);
-        FacebookPhotosLoadTask facebookAlbumsLoadTask = new FacebookPhotosLoadTask(this,album, new LoadCompleteListener() {
+        FacebookPhotosLoadTask facebookAlbumsLoadTask = new FacebookPhotosLoadTask(
+                this, album, new LoadCompleteListener() {
             @Override
             public void onLoadComplete() {
                 refreshPhotos();
@@ -79,10 +81,9 @@ public class PhotosActivity extends BaseActivity {
         facebookAlbumsLoadTask.execute();
     }
 
-    /**
-     * change cursor in GridView adapter
-     */
+    /** change cursor in GridView adapter */
     private void refreshPhotos() {
-        ((CursorAdapter) gridView.getAdapter()).changeCursor(getDbService().getPhotoCursor(Long.toString(albumID)));
+        ((CursorAdapter) gridView.getAdapter()).changeCursor(
+                getDbService().getPhotoCursor(Long.toString(albumID)));
     }
 }

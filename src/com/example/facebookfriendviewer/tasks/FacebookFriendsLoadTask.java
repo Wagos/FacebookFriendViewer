@@ -33,19 +33,23 @@ import java.util.List;
  */
 public class FacebookFriendsLoadTask extends AbstractLoadTask {
 
-    public FacebookFriendsLoadTask(BaseActivity context, LoadCompleteListener callback) {
+    public FacebookFriendsLoadTask(BaseActivity context,
+            LoadCompleteListener callback) {
         super(context, callback);
     }
 
     @Override
     protected Void doInBackground(Void... params) {
-        Response response = Request.newMyFriendsRequest(Session.getActiveSession(), null).executeAndWait();
+        Response response = Request
+                .newMyFriendsRequest(Session.getActiveSession(), null)
+                .executeAndWait();
         List<GraphObject> list = Utils.listGraphObjectFromResponse(response);
 
         if (list != null && list.size() > 0) {
             context.getDbService().deleteFriends();
             for (GraphObject obj : list) {
-                context.getDbService().saveFriend(Utils.convertToFriendObject(obj));
+                context.getDbService()
+                        .saveFriend(Utils.convertToFriendObject(obj));
             }
         }
         return null;

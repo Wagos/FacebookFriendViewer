@@ -19,10 +19,12 @@
         <java.version>1.6</java.version>
         <platform.version>15</platform.version>
         <android.version>4.1.1.4</android.version>
+
         <keystore.path>${env.USERPROFILE}/.android/debug.keystore</keystore.path>
         <storepass>android</storepass>
         <keypass>android</keypass>
         <alias>androiddebugkey</alias>
+
     </properties>
 
     <dependencies>

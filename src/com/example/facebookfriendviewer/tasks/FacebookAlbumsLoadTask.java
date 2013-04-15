@@ -40,14 +40,17 @@ public class FacebookAlbumsLoadTask extends AbstractLoadTask {
     public static final String PICTURE = "/picture";
     private Friend friend;
 
-    public FacebookAlbumsLoadTask(BaseActivity context, Friend friend, LoadCompleteListener callback) {
+    public FacebookAlbumsLoadTask(BaseActivity context, Friend friend,
+            LoadCompleteListener callback) {
         super(context, callback);
         this.friend = friend;
     }
 
     @Override
     protected Void doInBackground(Void... params) {
-        Response response = Request.newGraphPathRequest(Session.getActiveSession(), friend.getAccID() + ALBUMS, null).executeAndWait();
+        Response response = Request
+                .newGraphPathRequest(Session.getActiveSession(),
+                        friend.getAccID() + ALBUMS, null).executeAndWait();
         List<GraphObject> list = Utils.listGraphObjectFromResponse(response);
 
         if (list != null && list.size() > 0) {

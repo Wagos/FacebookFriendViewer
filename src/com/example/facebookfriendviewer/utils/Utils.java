@@ -39,7 +39,8 @@ public class Utils {
     private static final int BUFFER_SIZE = 1024;
 
     private static final String FACEBOOK_URL_FORMAT = "https://graph.facebook.com/%s/";
-    private static final String PICTURE_URL_FORMAT = FACEBOOK_URL_FORMAT + "picture";
+    private static final String PICTURE_URL_FORMAT =
+            FACEBOOK_URL_FORMAT + "picture";
     public static final String ID = "id";
     public static final String NAME = "name";
 
@@ -60,8 +61,11 @@ public class Utils {
         }
     }
 
-    public static List<GraphObject> listGraphObjectFromResponse(Response response) {
-        GraphMultiResult multiResult = response.getGraphObjectAs(GraphMultiResult.class);
+    public static List<GraphObject> listGraphObjectFromResponse(
+            Response response) {
+        GraphMultiResult multiResult = response
+                .getGraphObjectAs(GraphMultiResult.class);
+
         if (multiResult == null) {
             return null;
         }
@@ -71,7 +75,6 @@ public class Utils {
 
     public static Friend convertToFriendObject(GraphObject graphObject) {
         Friend friend = new Friend();
-
         String id = (String) graphObject.getProperty(ID);
 
         friend.setAccID(id);
@@ -101,8 +104,9 @@ public class Utils {
     }
 
     public static Photo convertToPhoto(GraphObject graphObject) {
-        Photo photo=new Photo();
+        Photo photo = new Photo();
         String id = (String) graphObject.getProperty(ID);
+
         photo.setPhotoId(id);
         photo.setPictureUrl(getFacebookPictureUrl(id));
         return photo;

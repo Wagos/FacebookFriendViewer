@@ -34,10 +34,12 @@ public abstract class AbstractLoadTask extends AsyncTask<Void, Void, Void> {
     private final LoadCompleteListener callback;
     protected BaseActivity context;
 
-    public AbstractLoadTask(BaseActivity context, LoadCompleteListener callback) {
+    public AbstractLoadTask(BaseActivity context,
+            LoadCompleteListener callback) {
         super();
         this.context = context;
-        if (callback == null) {                     //if callback is null set empty method
+        if (callback ==
+                null) {                     //if callback is null set empty method
             callback = new LoadCompleteListener() {
                 @Override
                 public void onLoadComplete() {
@@ -54,12 +56,13 @@ public abstract class AbstractLoadTask extends AsyncTask<Void, Void, Void> {
         progressDialog = ProgressDialog.show(context,
                 "", "Loading...");
         progressDialog.setCancelable(true);
-        progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dlg) {
-                AbstractLoadTask.this.cancel(true);
-            }
-        });
+        progressDialog
+                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dlg) {
+                        AbstractLoadTask.this.cancel(true);
+                    }
+                });
     }
 
     @Override

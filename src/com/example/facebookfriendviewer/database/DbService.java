@@ -59,6 +59,7 @@ public class DbService {
      */
     private ContentValues getFriendContentValues(Friend friend) {
         ContentValues values = new ContentValues();
+
         values.put(ID, friend.getAccID());
         values.put(NAME, friend.getName());
         values.put(PICTURE, friend.getProfileImageUrl());
@@ -94,6 +95,7 @@ public class DbService {
 
     private Friend friendFromCursor(Cursor cursor) {
         Friend friend = new Friend();
+
         friend.setId(cursor.getString(0));
         friend.setAccID(cursor.getString(1));
         friend.setName(cursor.getString(2));
@@ -132,39 +134,29 @@ public class DbService {
                 NAME);
     }
 
-    /**
-     * Delete all friends from DB
-     */
+    /** Delete all friends from DB */
     public void deleteFriends() {
         database.delete(FRIENDS_TABLE_NAME, null, null);
     }
 
-    /**
-     * Delete all albums of specific account
-     */
+    /** Delete all albums of specific account */
     public void deleteFriendAlbums(String accID) {
         database.delete(ALBUM_TABLE_NAME,
                 ACC_ID + " = " + accID,
                 null);
     }
 
-    /**
-     * Recreate data tables
-     */
+    /** Recreate data tables */
     public void dropData() {
         helper.onUpgrade(database, 0, 0);
     }
 
-    /**
-     * Open DB for writing
-     */
+    /** Open DB for writing */
     public void open() {
         database = helper.getWritableDatabase();
     }
 
-    /**
-     * Close access to DB
-     */
+    /** Close access to DB */
     public void close() {
         helper.close();
     }
@@ -179,6 +171,7 @@ public class DbService {
                 ALBUM_ID + " = " + albumId,
                 null, null, null, null);
     }
+
     /**
      * Requests album from the database
      *
@@ -191,14 +184,15 @@ public class DbService {
                 "_id = ?", new String[]{Long.toString(albumID)},
                 null, null, null);
 
-        if (!cursor.moveToFirst()){
+        if (!cursor.moveToFirst()) {
             return null;
         }
         return albumFromCursor(cursor);
     }
 
     private Album albumFromCursor(Cursor cursor) {
-        Album album=new Album();
+        Album album = new Album();
+
         album.setId(cursor.getString(0));
         album.setAlbumId(cursor.getString(cursor.getColumnIndex(ID)));
         album.setName(cursor.getString(cursor.getColumnIndex(NAME)));
@@ -219,6 +213,7 @@ public class DbService {
 
     private ContentValues getPhotoContentValues(Photo photo) {
         ContentValues values = new ContentValues();
+
         values.put(ID, photo.getAlbumId());
         values.put(PICTURE, photo.getPictureUrl());
         values.put(ALBUM_ID, photo.getAlbumId());

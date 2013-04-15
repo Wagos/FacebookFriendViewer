@@ -33,14 +33,11 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final int DB_VERSION = 6;
 
 
-
     public DBHelper(Context context) {
         super(context, FACEBOOK_FRIEND_DB, null, DB_VERSION);
     }
 
-    /**
-     * Creating tables
-     */
+    /** Creating tables */
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_FRIEND_TABLE);
@@ -48,9 +45,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_PHOTO_TABLE);
     }
 
-    /**
-     * Recreating tables
-     */
+    /** Recreating tables */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(DROP_ALBUM_TABLE);

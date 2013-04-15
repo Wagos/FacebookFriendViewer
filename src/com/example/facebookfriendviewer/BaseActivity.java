@@ -30,7 +30,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
  */
 public abstract class BaseActivity extends Activity {
 
-    protected ImageLoader imageLoader = ImageLoader.getInstance();     // Provides loading and caching images
+    protected ImageLoader imageLoader = ImageLoader
+            .getInstance();     // Provides loading and caching images
 
     protected static DbService dbService;  //Provides work with database
 

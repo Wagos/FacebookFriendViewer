@@ -34,8 +34,10 @@ public class FacebookImageDownloader extends BaseImageDownloader {
     }
 
     @Override
-    protected InputStream getStreamFromNetwork(String imageUri, Object extra) throws IOException {
-        imageUri += "?access_token=" + Session.getActiveSession().getAccessToken();
+    protected InputStream getStreamFromNetwork(String imageUri,
+            Object extra) throws IOException {
+        imageUri +=
+                "?access_token=" + Session.getActiveSession().getAccessToken();
         return super.getStreamFromNetwork(imageUri, extra);
     }
 }

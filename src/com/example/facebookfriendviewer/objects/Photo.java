@@ -16,9 +16,7 @@
 
 package com.example.facebookfriendviewer.objects;
 
-/**
- * @author Witkowsky Dmitry
- */
+/** @author Witkowsky Dmitry */
 public class Photo {
     private String id;
     private String photoId;

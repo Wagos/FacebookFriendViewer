@@ -63,6 +63,7 @@ public class ViewCursorAdapter extends CursorAdapter {
         final ViewHolder holder;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(viewLayout, null, false);
+
         holder = new ViewHolder();
         holder.image = (ImageView) view.findViewById(R.id.picture);
         holder.name = (TextView) view.findViewById(R.id.name);
@@ -73,8 +74,11 @@ public class ViewCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder holder = (ViewHolder) view.getTag();
-        holder.name.setText(cursor.getString(cursor.getColumnIndex(TableConstants.NAME)));
-        loader.displayImage(cursor.getString(cursor.getColumnIndex(TableConstants.PICTURE)),
+
+        holder.name.setText(
+                cursor.getString(cursor.getColumnIndex(TableConstants.NAME)));
+        loader.displayImage(
+                cursor.getString(cursor.getColumnIndex(TableConstants.PICTURE)),
                 holder.image);
     }
 
