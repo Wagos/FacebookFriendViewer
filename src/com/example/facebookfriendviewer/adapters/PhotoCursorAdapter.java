@@ -33,8 +33,11 @@ public class PhotoCursorAdapter extends CursorAdapter {
 
     private ImageLoader loader = ImageLoader.getInstance();
 
-    public PhotoCursorAdapter(Context context, Cursor c) {
+    private final int viewLayout;
+
+    public PhotoCursorAdapter(Context context, Cursor c, int viewLayout) {
         super(context, c, true);
+        this.viewLayout = viewLayout;
     }
 
     static class ViewHolder {
@@ -45,7 +48,7 @@ public class PhotoCursorAdapter extends CursorAdapter {
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         final ViewHolder holder;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.photo_view, null, false);
+        View view = inflater.inflate(viewLayout, null, false);
 
         holder = new ViewHolder();
         holder.image = (ImageView) view.findViewById(R.id.picture);

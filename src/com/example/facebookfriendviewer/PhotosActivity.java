@@ -16,10 +16,12 @@
 
 package com.example.facebookfriendviewer;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.widget.CursorAdapter;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import com.example.facebookfriendviewer.adapters.PhotoCursorAdapter;
@@ -58,8 +60,8 @@ public class PhotosActivity extends BaseActivity {
         if (Utils.cursorEmpty(cursor)) {
             onClickRefresh();
         }
-        gridView.setAdapter(new PhotoCursorAdapter(this, cursor));
-
+        gridView.setAdapter(
+                new PhotoCursorAdapter(this, cursor, R.layout.photo_view));
         buttonRefresh = (Button) findViewById(R.id.buttonRefresh);
         buttonRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +69,22 @@ public class PhotosActivity extends BaseActivity {
                 onClickRefresh();
             }
         });
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                    int position, long id) {
+                onPhotoItemClick(id, position);
+            }
+        });
+    }
+
+    private void onPhotoItemClick(long id, int position) {
+        Intent intent = new Intent(PhotosActivity.this,
+                PhotoFlipActivity.class);
+
+        intent.putExtra("albumId", albumID);
+        intent.putExtra("position", position);
+        startActivity(intent);
     }
 
     private void onClickRefresh() {

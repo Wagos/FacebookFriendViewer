@@ -12,7 +12,7 @@
         android:src="@drawable/square"
         android:contentDescription="@string/description"
         />
-    <ImageButton android:id="@+id/button_like"
+    <ImageView android:id="@+id/button_like"
                  android:src="@drawable/like"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"

@@ -134,7 +134,6 @@
 
                     <release>true</release>
 
-
                     <androidManifestFile>${project.basedir}/AndroidManifest.xml</androidManifestFile>
                     <resourceDirectory>${project.basedir}/res</resourceDirectory>
                     <genDirectory>${project.basedir}/gen</genDirectory>
