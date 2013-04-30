@@ -77,4 +77,6 @@ public class TableConstants {
                     + " FOREIGN KEY ( " + ALBUM_ID + " ) REFERENCES " +
                     ALBUM_TABLE_NAME + "(_id)" + ")";
     public static final String DROP_PHOTO_TABLE = DROP_TABLE + PHOTO_TABLE_NAME;
+
+    public static final String DELETE_FROM ="DELETE FROM ";
 }

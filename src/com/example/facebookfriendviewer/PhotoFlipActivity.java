@@ -20,7 +20,6 @@ import android.os.Bundle;
 import com.aphidmobile.flip.FlipViewController;
 import com.example.facebookfriendviewer.adapters.PhotoCursorAdapter;
 
-/** @author Witkowsky Dmitry */
 public class PhotoFlipActivity extends BaseActivity {
 
     private FlipViewController flipView;

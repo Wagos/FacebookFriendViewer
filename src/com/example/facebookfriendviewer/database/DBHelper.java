@@ -19,20 +19,26 @@ package com.example.facebookfriendviewer.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
+
 
 import static com.example.facebookfriendviewer.database.TableConstants.*;
 
 /**
  * Class for managing DB
  *
- * @author Witkowsky Dmitry
  */
-public class DBHelper extends SQLiteOpenHelper {
+@Singleton
+public class DBHelper extends SQLiteOpenHelper implements Provider<SQLiteDatabase> {
 
     private static final String FACEBOOK_FRIEND_DB = "FriendViewerDB";
     private static final int DB_VERSION = 6;
 
+    private SQLiteDatabase dataBase;
 
+    @Inject
     public DBHelper(Context context) {
         super(context, FACEBOOK_FRIEND_DB, null, DB_VERSION);
     }
@@ -52,5 +58,13 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(DROP_FRIEND_TABLE);
         db.execSQL(DROP_PHOTO_TABLE);
         onCreate(db);
+    }
+
+    @Override
+    public SQLiteDatabase get() {
+        if (dataBase == null || !dataBase.isOpen()) {
+            dataBase = getWritableDatabase();
+        }
+        return dataBase;
     }
 }

@@ -13,12 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+package com.example.facebookfriendviewer;
 
-package com.example.facebookfriendviewer.tasks;
+import android.database.sqlite.SQLiteDatabase;
+import com.example.facebookfriendviewer.database.DBHelper;
+import com.google.inject.AbstractModule;
 
 /**
- * Implement this interface to listen load complete
+ * RoboGuice module for configuration binding dependencies
  */
-public interface LoadCompleteListener {
-    public void onLoadComplete();
+public class FriendViewerModule extends AbstractModule{
+    @Override
+    protected void configure() {
+        bind(SQLiteDatabase.class).toProvider(DBHelper.class);
+    }
 }

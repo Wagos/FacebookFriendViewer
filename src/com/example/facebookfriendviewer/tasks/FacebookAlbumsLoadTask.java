@@ -31,13 +31,12 @@ import java.util.List;
  * Class implement facebook album loading
  * If albums is exists they are stored in DB
  * Old albums are removed
- *
- * @author Witkowsky Dmitry
  */
 public class FacebookAlbumsLoadTask extends AbstractLoadTask {
 
     public static final String ALBUMS = "/albums";
     public static final String PICTURE = "/picture";
+
     private Friend friend;
 
     public FacebookAlbumsLoadTask(BaseActivity context, Friend friend,
@@ -47,19 +46,20 @@ public class FacebookAlbumsLoadTask extends AbstractLoadTask {
     }
 
     @Override
-    protected Void doInBackground(Void... params) {
+    public Void call() {
         Response response = Request
                 .newGraphPathRequest(Session.getActiveSession(),
                         friend.getAccID() + ALBUMS, null).executeAndWait();
+
         List<GraphObject> list = Utils.listGraphObjectFromResponse(response);
 
         if (list != null && list.size() > 0) {
-            context.getDbService().deleteFriendAlbums(friend.getId());
+            dbService.deleteFriendAlbums(friend.getId());
             Album album;
             for (GraphObject obj : list) {
                 album = Utils.convertToAlbumObject(obj);
                 album.setAccId(friend.getId());
-                context.getDbService().saveAlbum(album);
+                dbService.saveAlbum(album);
             }
         }
 

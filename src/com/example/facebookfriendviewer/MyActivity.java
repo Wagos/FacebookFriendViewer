@@ -35,6 +35,8 @@ import com.facebook.widget.LoginButton;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.PauseOnScrollListener;
+import roboguice.inject.ContentView;
+import roboguice.inject.InjectView;
 
 import java.util.Arrays;
 
@@ -42,12 +44,17 @@ import java.util.Arrays;
  * Root Activity
  * Allows view friends and login
  *
- * @author Witkowsky Dmitry
  */
+@ContentView(R.layout.main)
 public class MyActivity extends BaseActivity {
 
+    @InjectView(R.id.buttonRefresh)
     private Button buttonRefresh;
+
+    @InjectView(R.id.authButton)
     private LoginButton authButton;
+
+    @InjectView(R.id.friendList)
     private ListView listView;
 
     private static final String[] FACEBOOK_PERMISSIONS = new String[]{
@@ -57,7 +64,6 @@ public class MyActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
         initButtons();
         initImageLoader();
         initViews();
@@ -66,15 +72,11 @@ public class MyActivity extends BaseActivity {
     /** Configure ImageLoader */
     private void initImageLoader() {
         imageLoader.init(new ImageLoaderConfiguration.Builder(this)
-                .imageDownloader(new FacebookImageDownloader(
-                        this))       //Set downloader
+                .imageDownloader(new FacebookImageDownloader(this))       //Set downloader
                 .defaultDisplayImageOptions(new DisplayImageOptions.Builder()
-                        .showStubImage(
-                                R.drawable.com_facebook_profile_default_icon)
-                        .showImageForEmptyUri(
-                                R.drawable.com_facebook_profile_default_icon)
-                        .showImageOnFail(
-                                R.drawable.com_facebook_profile_default_icon)
+                        .showStubImage(R.drawable.com_facebook_profile_default_icon)
+                        .showImageForEmptyUri(R.drawable.com_facebook_profile_default_icon)
+                        .showImageOnFail(R.drawable.com_facebook_profile_default_icon)
                         .cacheInMemory()           //set cache options
                         .cacheOnDisc()
                         .build())
@@ -83,7 +85,6 @@ public class MyActivity extends BaseActivity {
 
     private void initButtons() {
 
-        buttonRefresh = (Button) findViewById(R.id.buttonRefresh);
         buttonRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,12 +92,10 @@ public class MyActivity extends BaseActivity {
             }
         });
 
-        authButton = (LoginButton) findViewById(R.id.authButton);
         authButton.setReadPermissions(Arrays.asList(FACEBOOK_PERMISSIONS));
         authButton.setSessionStatusCallback(new Session.StatusCallback() {
             @Override
-            public void call(Session session, SessionState state,
-                    Exception exception) {
+            public void call(Session session, SessionState state, Exception exception) {
                 if (state == SessionState.OPENED)
                     controlsEnabling(true);
                 else controlsEnabling(false);
@@ -112,8 +111,6 @@ public class MyActivity extends BaseActivity {
     }
 
     private void initViews() {
-
-        listView = (ListView) findViewById(R.id.friendList);
 
         Cursor cursor = getDbService().getFriendList();
         if (Utils.cursorEmpty(cursor)) {
@@ -150,7 +147,7 @@ public class MyActivity extends BaseActivity {
                 new LoadCompleteListener() {
                     @Override
                     public void onLoadComplete() {
-                        refreshFriends();
+                        refreshCursor();
                     }
                 });
 
@@ -158,7 +155,8 @@ public class MyActivity extends BaseActivity {
     }
 
     /** change cursor in ListView adapter */
-    private void refreshFriends() {
+    @Override
+    protected void refreshCursor() {
         ((CursorAdapter) listView.getAdapter())
                 .changeCursor(dbService.getFriendList());
     }

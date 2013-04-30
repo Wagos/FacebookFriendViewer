@@ -29,19 +29,26 @@ import com.example.facebookfriendviewer.objects.Friend;
 import com.example.facebookfriendviewer.tasks.FacebookAlbumsLoadTask;
 import com.example.facebookfriendviewer.tasks.LoadCompleteListener;
 import com.example.facebookfriendviewer.utils.Utils;
+import roboguice.inject.ContentView;
+import roboguice.inject.InjectExtra;
+import roboguice.inject.InjectView;
 
 /** Activity to displaying users albums */
+@ContentView(R.layout.albums)
 public class AlbumsActivity extends BaseActivity {
 
+    @InjectView(R.id.grid_view)
     private GridView gridView;
+
+    @InjectView(R.id.buttonRefresh)
     private Button buttonRefresh;
+
+    @InjectExtra("id")
     private long accID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.albums);
-        accID = getIntent().getLongExtra("id", -1);
         init();
 
     }
@@ -50,7 +57,6 @@ public class AlbumsActivity extends BaseActivity {
 
         Cursor cursor = getDbService().getAlbumCursor(Long.toString(accID));
 
-        gridView = (GridView) findViewById(R.id.grid_view);
         if (Utils.cursorEmpty(cursor)) {
             onClickRefresh();
         }
@@ -63,7 +69,7 @@ public class AlbumsActivity extends BaseActivity {
                 onAlbumItemClick(id);
             }
         });
-        buttonRefresh = (Button) findViewById(R.id.buttonRefresh);
+//        buttonRefresh = (Button) findViewById(R.id.buttonRefresh);
         buttonRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,7 +91,7 @@ public class AlbumsActivity extends BaseActivity {
                 this, friend, new LoadCompleteListener() {
             @Override
             public void onLoadComplete() {
-                refreshAlbums();
+                refreshCursor();
             }
         });
 
@@ -93,7 +99,7 @@ public class AlbumsActivity extends BaseActivity {
     }
 
     /** change cursor in GridView adapter */
-    private void refreshAlbums() {
+    protected void refreshCursor() {
         ((CursorAdapter) gridView.getAdapter()).changeCursor(
                 getDbService().getAlbumCursor(Long.toString(accID)));
     }

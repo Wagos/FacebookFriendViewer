@@ -17,28 +17,25 @@
 package com.example.facebookfriendviewer.database;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.example.facebookfriendviewer.objects.Album;
 import com.example.facebookfriendviewer.objects.Friend;
 import com.example.facebookfriendviewer.objects.Photo;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import static com.example.facebookfriendviewer.database.TableConstants.*;
 
 /**
  * Class for managing DB data
  *
- * @author Witkowsky Dmitry
  */
+@Singleton
 public class DbService {
 
-    private DBHelper helper;
+    @Inject
     private SQLiteDatabase database;
-
-    public DbService(Context context) {
-        helper = new DBHelper(context);
-    }
 
     /**
      * Save Friend object to DB
@@ -146,21 +143,6 @@ public class DbService {
                 null);
     }
 
-    /** Recreate data tables */
-    public void dropData() {
-        helper.onUpgrade(database, 0, 0);
-    }
-
-    /** Open DB for writing */
-    public void open() {
-        database = helper.getWritableDatabase();
-    }
-
-    /** Close access to DB */
-    public void close() {
-        helper.close();
-    }
-
     /**
      * @param albumId Album id to request
      * @return Cursor with Photos of specific album
@@ -218,5 +200,11 @@ public class DbService {
         values.put(PICTURE, photo.getPictureUrl());
         values.put(ALBUM_ID, photo.getAlbumId());
         return values;
+    }
+
+    public void dropData() {
+        database.execSQL(DELETE_FROM +PHOTO_TABLE_NAME);
+        database.execSQL(DELETE_FROM +ALBUM_TABLE_NAME);
+        database.execSQL(DELETE_FROM +FRIENDS_TABLE_NAME);
     }
 }

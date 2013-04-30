@@ -28,8 +28,6 @@ import java.util.List;
 /**
  * Class implement facebook friends loading
  * If friends is exists they are stored in DB
- *
- * @author Witkowsky Dmitry
  */
 public class FacebookFriendsLoadTask extends AbstractLoadTask {
 
@@ -39,17 +37,17 @@ public class FacebookFriendsLoadTask extends AbstractLoadTask {
     }
 
     @Override
-    protected Void doInBackground(Void... params) {
+    public Void call() {
         Response response = Request
                 .newMyFriendsRequest(Session.getActiveSession(), null)
                 .executeAndWait();
+
         List<GraphObject> list = Utils.listGraphObjectFromResponse(response);
 
         if (list != null && list.size() > 0) {
-            context.getDbService().deleteFriends();
+            dbService.deleteFriends();
             for (GraphObject obj : list) {
-                context.getDbService()
-                        .saveFriend(Utils.convertToFriendObject(obj));
+                dbService.saveFriend(Utils.convertToFriendObject(obj));
             }
         }
         return null;

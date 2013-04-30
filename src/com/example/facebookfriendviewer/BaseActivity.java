@@ -16,31 +16,25 @@
 
 package com.example.facebookfriendviewer;
 
-import android.app.Activity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.example.facebookfriendviewer.database.DbService;
+import com.google.inject.Inject;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import roboguice.activity.RoboActivity;
 
 /**
  * Provides base for other activities
  *
  * @author Witkowsky Dmitry
  */
-public abstract class BaseActivity extends Activity {
+public abstract class BaseActivity extends RoboActivity {
 
     protected ImageLoader imageLoader = ImageLoader
             .getInstance();     // Provides loading and caching images
 
-    protected static DbService dbService;  //Provides work with database
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        dbService = new DbService(this);
-        dbService.open();
-    }
+    @Inject
+    protected DbService dbService;  //Provides work with database
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -57,29 +51,14 @@ public abstract class BaseActivity extends Activity {
                 return true;
             case R.id.menu_item_drop_data:
                 dbService.dropData();
+                refreshCursor();
                 return true;
             default:
                 return false;
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        dbService.open();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        dbService.close();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        dbService.close();
-    }
+    protected void refreshCursor(){}
 
     public DbService getDbService() {
         return dbService;

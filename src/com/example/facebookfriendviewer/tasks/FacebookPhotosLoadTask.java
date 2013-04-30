@@ -27,7 +27,6 @@ import com.facebook.model.GraphObject;
 
 import java.util.List;
 
-/** @author Witkowsky Dmitry */
 public class FacebookPhotosLoadTask extends AbstractLoadTask {
     private static final String PHOTOS = "/photos";
     private Album album;
@@ -39,19 +38,20 @@ public class FacebookPhotosLoadTask extends AbstractLoadTask {
     }
 
     @Override
-    protected Void doInBackground(Void... params) {
+    public Void call() {
         Response response = Request
                 .newGraphPathRequest(Session.getActiveSession(),
                         album.getAlbumId() + PHOTOS, null).executeAndWait();
+
         List<GraphObject> list = Utils.listGraphObjectFromResponse(response);
 
         if (list != null && list.size() > 0) {
-            context.getDbService().deletePhotos(album.getId());
+            dbService.deletePhotos(album.getId());
             Photo photo;
             for (GraphObject obj : list) {
                 photo = Utils.convertToPhoto(obj);
                 photo.setAlbumId(album.getId());
-                context.getDbService().savePhoto(photo);
+                dbService.savePhoto(photo);
             }
         }
         return null;
