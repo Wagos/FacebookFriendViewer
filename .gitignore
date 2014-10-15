@@ -1,0 +1,9 @@
+#Idea project files
+.idea
+*.iml
+local.properties
+
+# Generated files
+build/
+
+

@@ -1,0 +1,27 @@
+apply plugin: 'com.android.library'
+
+dependencies {
+    compile 'com.android.support:support-v4:20.0.0'
+    compile 'com.parse.bolts:bolts-android:1.1.2'
+}
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion '20'
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 19
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            res.srcDirs = ['res']
+        }
+    }
+}
